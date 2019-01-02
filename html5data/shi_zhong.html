@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas时钟</title>
+	<style>
+		html,body{
+			margin: 0;
+			padding: 0;
+		}
+		#mycanvas{
+			display: block;
+			margin: 0 auto;
+			margin-top: 200px;
+			border:solid 1px #ccc;
+		}
+	</style>
+</head>
+<body>
+	<canvas width="300" height="300" id="mycanvas"></canvas>
+	<script>
+		var ocanvas = document.querySelector("#mycanvas");
+		//获取canvas的上下文关系
+		var ctx = ocanvas.getContext("2d");
+		var _width = ctx.canvas.width;
+		var _height = ctx.canvas.width;
+		var r = _width/2;
+		console.log(ctx);
+		function initialization(){
+			ctx.translate(r,r);
+			ctx.beginPath();
+			ctx.lineWidth = 10;
+			ctx.arc(0,0,r-5,0,2*Math.PI,false);
+			ctx.stroke();
+
+			//绘制数字
+			var arr = [3,4,5,6,7,8,9,10,11,12,1,2];
+			for(var i=0,len=arr.length;i<len;i++){
+				var jiao = 2*Math.PI /12 *i;
+				var x = Math.cos(jiao)*(r-45);
+				var y = Math.sin(jiao)*(r-45);
+				ctx.font = "20px Microsoft YaHei";
+				ctx.textAlign="center";
+				ctx.textBaseline = "middle";
+				ctx.fillText(arr[i],x,y);
+			};
+
+			//绘制小圆点
+			for(var i = 0;i<60;i++){
+				var jiao = 2*Math.PI /60 *i;
+				var x = Math.cos(jiao)*(r-21);
+				var y = Math.sin(jiao)*(r-21);
+				ctx.beginPath();
+				if(i%5 === 0){
+					ctx.fillStyle="#333";
+					ctx.arc(x,y,4,0,2*Math.PI,false);
+				}else{
+					ctx.fillStyle="#ccc";
+					ctx.arc(x,y,3,0,2*Math.PI,false);
+				};
+				ctx.fill();
+			};
+		};
+
+		//绘制小时
+		function hour(time){
+			//弄清楚旋转弧度
+			//先画一条线
+			ctx.save();
+			ctx.rotate((time*30)*Math.PI/180);
+			ctx.beginPath();
+			ctx.lineWidth = 8;
+			ctx.lineCap = "round";
+			ctx.moveTo(0,15);
+			ctx.lineTo(0,-r+80);
+			ctx.stroke();
+			ctx.restore();
+		};
+
+		//绘制分钟
+		function branch(time){
+			ctx.save();
+			ctx.rotate((time*6)*Math.PI/180);
+			ctx.beginPath();
+			ctx.lineWidth = 6;
+			ctx.lineCap = "round";
+			ctx.moveTo(0,15);
+			ctx.lineTo(0,-r+50);
+			ctx.stroke();
+			ctx.restore();
+		};
+		function second(time){
+
+		};
+		initialization();
+		hour(10);
+		branch(10);
+		second(50);
+	</script>
+</body>
+</html>
