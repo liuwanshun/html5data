@@ -19,7 +19,7 @@ if(!_pc){
 var rem = _a.width/750;
 mycanvas.width = _a.width;
 mycanvas.height = _a.height;
-
+_a.set_top = mycanvas.offsetTop;
 //绘制功能
 var _b = {};
 var _d = [];//按钮对象数组
@@ -87,6 +87,15 @@ _b.hangshu = function(num){
 	ctx.strokeStyle = "#0b2680";
 	ctx.textBaseline = "middle";
 	ctx.strokeText(num,_a.hang_x,_a.hang_y);
+};
+
+//检测是否触发了点击事件
+_b.test_fn = function(x,y,type){
+	for(var i=0,len=_d.length;i<len;i++){
+		if(x>=_d[i].x && x<=_d[i].x1 && y>=_d[i].y && y<=_d[i].y1){
+			console.log(_d[i]);
+		};
+	};
 };
 
 //绘制静态的按钮区域
@@ -176,6 +185,8 @@ _b.initialize = function(){
 		y:879*rem,
 		w:125*rem,
 		h:56*rem,
+		x1:209*rem+125*rem,
+		y1:879*rem+56*rem,
 		fillcolor:"#3a0e0e",
 		fillcolor_hover:"#1a0a0a",
 	};
@@ -190,6 +201,8 @@ _b.initialize = function(){
 		y:944*rem,
 		w:125*rem,
 		h:56*rem,
+		x1:69*rem+125*rem,
+		y1:944*rem+56*rem,
 		fillcolor:"#3a0e0e",
 		fillcolor_hover:"#1a0a0a",
 	};
@@ -204,6 +217,8 @@ _b.initialize = function(){
 		y:944*rem,
 		w:125*rem,
 		h:56*rem,
+		x1:346*rem+125*rem,
+		y1:944*rem+56*rem,
 		fillcolor:"#3a0e0e",
 		fillcolor_hover:"#1a0a0a",
 	};
@@ -218,6 +233,8 @@ _b.initialize = function(){
 		y:1000*rem,
 		w:125*rem,
 		h:56*rem,
+		x1:209*rem+125*rem,
+		y1:1000*rem+56*rem,
 		fillcolor:"#3a0e0e",
 		fillcolor_hover:"#1a0a0a",
 	};
@@ -232,6 +249,8 @@ _b.initialize = function(){
 		y:701*rem,
 		w:152*rem,
 		h:40*rem,
+		x1:566*rem+152*rem,
+		y1:701*rem+40*rem,
 		fillcolor:"#2e2c2c",
 		fillcolor_hover:"#1a0a0a",
 	};
@@ -261,20 +280,50 @@ _b.initialize = function(){
 	if(_pc){
 		mycanvas.onmousedown = function(event){
 			var _x = event.clientX;
-			var _y = event.clientY;
+			var _y = event.clientY-_a.set_top;
+			_b.test_fn(_x,_y,true);//false代表按下
 		};
 		mycanvas.onmouseup = function(event){
 			var _x = event.clientX;
-			var _y = event.clientY;
+			var _y = event.clientY-_a.set_top;
+			_b.test_fn(_x,_y,false);//false代表按下
 		};
 	}else{
 		mycanvas.ontouchstart = function(event){
-			var _x = event.clientX;
-			var _y = event.clientY;
+			var _x = event.changedTouches[0].clientX;
+			var _y = event.changedTouches[0].clientY-_a.set_top;
+			_b.test_fn(_x,_y,true);//false代表按下
 		};
-		mycanvas.ontouchmove = function(event){
-			var _x = event.clientX;
-			var _y = event.clientY;
+		mycanvas.ontouchend = function(event){
+			var _x = event.changedTouches[0].clientX;
+			var _y = event.changedTouches[0].clientY-_a.set_top;
+			_b.test_fn(_x,_y,false);//false代表按下
+		};
+	};
+
+	if(_pc){
+		//键盘事件
+		document.onkeydown = function(event){
+			if(event.keyCode === 38){
+				//变形
+			}else if(event.keyCode === 37){
+				//向左
+			}else if(event.keyCode === 39){
+				//向右
+			}else if(event.keyCode === 40){
+				//下落
+			}
+		};
+		document.onkeyup = function(event){
+			if(event.keyCode === 38){
+				//变形
+			}else if(event.keyCode === 37){
+				//向左
+			}else if(event.keyCode === 39){
+				//向右
+			}else if(event.keyCode === 40){
+				//下落
+			}
 		};
 	};
 };
