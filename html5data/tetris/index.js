@@ -49,18 +49,6 @@ _b.rect_ra = function(x,y,w,h,radius,fillcolor,text,textcolor){
 	ctx.strokeText(text,x+(w/2),y+(h/2));
 };
 
-//绘制下一个图案7中图案1~7和用那个颜色值0只绘制背景
-_a.n_x = 578*rem;
-_a.n_y = 88*rem;
-_a.n_w = 140*rem;
-_a.n_h = 111*rem;
-_b.next = function(type,color){
-	ctx.clearRect(_a.n_x,_a.n_y,_a.n_w,_a.n_h);
-	ctx.fillStyle = "#433e3e";
-	ctx.fillRect(_a.n_x,_a.n_y,_a.n_w,_a.n_h);
-	if(type){return};
-};
-
 //绘制得分
 _a.df_x = 578*rem;
 _a.df_y = 314*rem;
@@ -241,9 +229,41 @@ _b.initialize = function(){
 	_d.push(jsn);
 	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,10*rem,jsn.fillcolor,jsn.msg,"#efb456");
 
-	//音乐按钮
+	//开始按钮
 	jsn = {
 		type:5,
+		msg:"开始",
+		x:562*rem,
+		y:897*rem,
+		w:125*rem,
+		h:56*rem,
+		x1:562*rem+125*rem,
+		y1:897*rem+56*rem,
+		fillcolor:"#3a0e0e",
+		fillcolor_hover:"#1a0a0a",
+	};
+	_d.push(jsn);
+	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,10*rem,jsn.fillcolor,jsn.msg,"#efb456");
+
+	//暂停按钮
+	jsn = {
+		type:6,
+		msg:"暂停",
+		x:562*rem,
+		y:972*rem,
+		w:125*rem,
+		h:56*rem,
+		x1:562*rem+125*rem,
+		y1:972*rem+56*rem,
+		fillcolor:"#3a0e0e",
+		fillcolor_hover:"#1a0a0a",
+	};
+	_d.push(jsn);
+	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,10*rem,jsn.fillcolor,jsn.msg,"#efb456");
+
+	//音乐按钮
+	jsn = {
+		type:7,
 		msg:"音乐开/关",
 		x:566*rem,
 		y:701*rem,
@@ -355,5 +375,115 @@ _b.btnclick = function(jsn,type){
 	}else{
 		_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,10*rem,jsn.fillcolor,jsn.msg,"#efb456");
 	};
+	if(jsn.type === 1){
+		//变换按钮
+		console.log("变化");
+	}else if(jsn.type === 2){
+		//向左
+		console.log("向左");
+	}else if(jsn.type === 3){
+		//向右
+		console.log("向右");
+	}else if(jsn.type === 4){
+		//下落
+		console.log("下落");
+	}else if(jsn.type === 5){
+		//开始
+		_b.start();
+	}else if(jsn.type === 6){
+		//暂停
+		console.log("暂停");
+	}else if(jsn.type === 7){
+		//是否播放音乐
+		console.log("暂停/播放");
+	};
+};
+//绘制
+//一个小方格的边长
+var _e = {};
+_e._w = Math.floor(25*rem);//每个小方格边长
+_e._x = Math.floor(80*rem);//游戏区域的x坐标
+_e._y = Math.floor(30*rem);//游戏区域的y坐标
+_e.ico_1 = document.querySelector(".ico_1");
+_e.ico_2 = document.querySelector(".ico_2");
+_e.ico_3 = document.querySelector(".ico_3");
+_e.ico_4 = document.querySelector(".ico_4");
+_e.ico_5 = document.querySelector(".ico_5");
+_e.ico_6 = document.querySelector(".ico_6");
+_e.ico_7 = document.querySelector(".ico_7");
+_e.ico_bg = document.querySelector(".ico_bg");
+_e.domimg = [];
+_e.domimg.push(_e.ico_1);
+_e.domimg.push(_e.ico_2);
+_e.domimg.push(_e.ico_3);
+_e.domimg.push(_e.ico_4);
+_e.domimg.push(_e.ico_5);
+_e.domimg.push(_e.ico_6);
+_e.domimg.push(_e.ico_7);
+_e.numx = 16;//横向多少个
+_e.numy = 30;//竖向多少个
+_e.all_w = _e.numx*_e._w;
+_e.all_h = _e.numy*_e._w;
+_e.all = [];//所有坐标的数组
+_e.status = 0;//游戏状态0未开始1开始2暂停中
+_b.draw_bg = function(){
+	ctx.clearRect(0,0,_e.all_w,_e.all_h);
+	for(var i=0;i<_e.numy;i++){
+		for(var j=0;j<_e.numx;j++){
+			ctx.drawImage(_e.ico_bg,j*_e._w,i*_e._w,_e._w,_e._w);
+		};
+	};
+};
+
+//绘制下一个图案7中图案1~7和用那个颜色值0只绘制背景
+_a.n_x = 578*rem;
+_a.n_y = 88*rem;
+_a.n_w = 140*rem;
+_a.n_h = 111*rem;
+_b.next = function(data){
+	ctx.clearRect(_a.n_x,_a.n_y,_a.n_w,_a.n_h);
+	ctx.fillStyle = "#433e3e";
+	ctx.fillRect(_a.n_x,_a.n_y,_a.n_w,_a.n_h);
+	if(!data){return};
+	
+};
+_e.suiji = [
+	[[0,0],[0,1],[0,2],[0,3]],
+	[[0,0],[0,1],[1,1],[2,1]],
+	[[0,1],[1,1],[2,1],[2,0]],
+	[[0,0],[0,1],[1,1],[1,0]],
+	[[0,1],[1,1],[1,0],[2,0]],
+	[[1,0],[0,1],[1,1],[2,1]],
+	[[0,0],[1,0],[1,1],[2,1]],
+];
+//绘制
+_b.draw = function(){
+	ctx.save();
+	ctx.translate(_e._x,_e._y);
+	_b.draw_bg();
+	ctx.restore();
+};
+//开始
+_b.start = function(){
+	if(_e.status === 0){
+		_e.status = 1;
+		//要产生2个随机图形
+		var a = _e.suiji.length;
+		var b = [];
+		for(var i=0;i<2;i++){
+			var shiji = Math.floor(Math.random()*a);
+			var jsn = {
+				style:_e.suiji[shiji],
+				color:_e.domimg[Math.floor(Math.random()*7)],
+				status:0,//预显示
+			};
+			b.push(jsn);
+		};
+		_e.all.push(b[0]);
+		_b.next(b[1]);
+		console.log(b);
+	}
 };
 _b.initialize();
+_b.draw();
+
