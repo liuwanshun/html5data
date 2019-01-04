@@ -93,7 +93,7 @@ _b.hangshu = function(num){
 _b.test_fn = function(x,y,type){
 	for(var i=0,len=_d.length;i<len;i++){
 		if(x>=_d[i].x && x<=_d[i].x1 && y>=_d[i].y && y<=_d[i].y1){
-			console.log(_d[i]);
+			_b.btnclick(_d[i],type);
 		};
 	};
 };
@@ -301,31 +301,59 @@ _b.initialize = function(){
 		};
 	};
 
+	_b.downstatus = false;
 	if(_pc){
 		//键盘事件
 		document.onkeydown = function(event){
 			if(event.keyCode === 38){
 				//变形
+				if(_b.downstatus){return;};
+				_b.downstatus = true;
+				_b.btnclick(_d[0],true);
 			}else if(event.keyCode === 37){
 				//向左
+				if(_b.downstatus){return;};
+				_b.downstatus = true;
+				_b.btnclick(_d[1],true);
 			}else if(event.keyCode === 39){
 				//向右
+				if(_b.downstatus){return;};
+				_b.downstatus = true;
+				_b.btnclick(_d[2],true);
 			}else if(event.keyCode === 40){
 				//下落
+				if(_b.downstatus){return;};
+				_b.downstatus = true;
+				_b.btnclick(_d[3],true);
 			}
 		};
 		document.onkeyup = function(event){
 			if(event.keyCode === 38){
 				//变形
+				_b.downstatus = false;
+				_b.btnclick(_d[0],false);
 			}else if(event.keyCode === 37){
 				//向左
+				_b.downstatus = false;
+				_b.btnclick(_d[1],false);
 			}else if(event.keyCode === 39){
 				//向右
+				_b.downstatus = false;
+				_b.btnclick(_d[2],false);
 			}else if(event.keyCode === 40){
 				//下落
+				_b.downstatus = false;
+				_b.btnclick(_d[3],false);
 			}
 		};
 	};
 };
-
+//向上被按下变换type=true按下false抬起
+_b.btnclick = function(jsn,type){
+	if(type){
+		_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,10*rem,jsn.fillcolor_hover,jsn.msg,"#fff");
+	}else{
+		_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,10*rem,jsn.fillcolor,jsn.msg,"#efb456");
+	};
+};
 _b.initialize();
