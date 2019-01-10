@@ -55,6 +55,8 @@ _a.df_y = 314*rem;
 _a.df_w = 170*rem;
 _a.df_h = 40*rem;
 _a.df_f = 22*rem;
+_a.df_num1 = 0;
+_a.df_hang = 0;
 _b.defen = function(num){
 	ctx.clearRect(_a.df_x-15*rem,_a.df_y-15*rem,_a.df_w,_a.df_h);
 	ctx.font = _a.df_f+"px Microsoft YaHei 100";
@@ -289,11 +291,10 @@ _b.initialize = function(){
 	_b.next();
 
 	//绘制得分
-	_b.defen(0);
-	_b.defen(100);
+	_b.defen(_a.df_num1);
 
 	//消灭行数
-	_b.hangshu(4);
+	_b.hangshu(_a.df_hang);
 
 	//事件的处理和添加
 	//判断是移动端或者pc用的事件不同
@@ -377,22 +378,53 @@ _b.btnclick = function(jsn,type){
 	};
 	if(jsn.type === 1){
 		//变换按钮
-		console.log("变化");
+		if(type){
+		if(!_e.conduct){return;};
+			_b.deformation();
+		};
 	}else if(jsn.type === 2){
 		//向左
-		console.log("向左");
+		if(!_e.conduct){return;};
+		if(type){
+			_a.time2 && clearInterval(_a.time2);
+			_a.time2 = setInterval(_b.to_left,100);
+			_b.to_left();
+		}else{
+			_a.time2 && clearInterval(_a.time2);
+		};
 	}else if(jsn.type === 3){
 		//向右
-		console.log("向右");
+		if(!_e.conduct){return;};
+		if(type){
+			_a.time2 && clearInterval(_a.time2);
+			_a.time2 = setInterval(_b.to_right,100);
+			_b.to_right();
+		}else{
+			_a.time2 && clearInterval(_a.time2);
+		};
 	}else if(jsn.type === 4){
 		//下落
-		console.log("下落");
+		if(!_e.conduct){return;};
+		if(type){
+			_a.time1 && clearInterval(_a.time1);
+			_a.time2 && clearInterval(_a.time2);
+			_a.time2 = setInterval(_b.to_lower,25);
+			_b.to_lower();
+		}else{
+			_a.time2 && clearInterval(_a.time2);
+			_b.start_go();
+		};
+		
 	}else if(jsn.type === 5){
 		//开始
-		_b.start();
+		if(_e.status === 0){
+			_b.start();
+		}else if(_e.status === 1){
+			_b.start_go();
+		};
 	}else if(jsn.type === 6){
 		//暂停
-		console.log("暂停");
+		_a.time1 && clearInterval(_a.time1);
 	}else if(jsn.type === 7){
 		//是否播放音乐
 		console.log("暂停/播放");
@@ -401,9 +433,11 @@ _b.btnclick = function(jsn,type){
 //绘制
 //一个小方格的边长
 var _e = {};
-_e._w = Math.floor(25*rem);//每个小方格边长
+_e._w = Math.floor(32*rem);//每个小方格边长
 _e._x = Math.floor(80*rem);//游戏区域的x坐标
 _e._y = Math.floor(30*rem);//游戏区域的y坐标
+_e.numx = 14;//横向多少个
+_e.numy = 25;//竖向多少个
 _e.ico_1 = document.querySelector(".ico_1");
 _e.ico_2 = document.querySelector(".ico_2");
 _e.ico_3 = document.querySelector(".ico_3");
@@ -420,8 +454,6 @@ _e.domimg.push(_e.ico_4);
 _e.domimg.push(_e.ico_5);
 _e.domimg.push(_e.ico_6);
 _e.domimg.push(_e.ico_7);
-_e.numx = 16;//横向多少个
-_e.numy = 30;//竖向多少个
 _e.all_w = _e.numx*_e._w;
 _e.all_h = _e.numy*_e._w;
 _e.all = [];//所有坐标的数组
@@ -440,8 +472,12 @@ _a.n_x = 578*rem;
 _a.n_y = 88*rem;
 _a.n_w = 140*rem;
 _a.n_h = 150*rem;
+_a.n_data = false;
 _b.next = function(data){
-	console.log(data);
+	if(_a.n_data){
+		_e.conduct = _a.n_data;
+	};
+	_a.n_data = data;
 	ctx.clearRect(_a.n_x,_a.n_y,_a.n_w,_a.n_h);
 	ctx.fillStyle = "#433e3e";
 	ctx.fillRect(_a.n_x,_a.n_y,_a.n_w,_a.n_h);
@@ -449,7 +485,6 @@ _b.next = function(data){
 	var x = 598*rem;
 	var y = 111*rem;
 	var this_data = data.style[data.this_style];
-	console.log(this_data);
 	for(var i=0,len=this_data.length;i<len;i++){
 		ctx.drawImage(data.color,this_data[i][0]*_e._w+x,this_data[i][1]*_e._w+y,_e._w,_e._w);
 	};
@@ -504,32 +539,323 @@ _b.draw = function(){
 	ctx.save();
 	ctx.translate(_e._x,_e._y);
 	_b.draw_bg();
+	var arr = _e.all;//绘制静态
+	var x1,y1;
+	for(var i=0,len=arr.length;i<len;i++){
+		ctx.drawImage(arr[i].color,arr[i].x*_e._w,arr[i].y*_e._w,_e._w,_e._w);
+	};
+	//绘制不断下落的元素
+	var b = _e.conduct;
+	var c = b.style[b.this_style];
+	for(var j=0,jen = c.length;j<jen;j++){
+		x1 = (c[j][0]+b.x)*_e._w;
+		y1 = (c[j][1]+b.y)*_e._w;
+		if(x1>-1 && y1>-1){
+			ctx.drawImage(b.color,x1,y1,_e._w,_e._w);
+		};
+	};
 	ctx.restore();
+};
+//接触检测和触边检测
+_b.contact = function(b){
+	var c = b.style[b.this_style];
+	var x1,y1;
+	var arr = _e.all;//绘制静态
+	var is_ok = false;
+	for(var i=0,len = c.length;i<len;i++){
+		x1 = (c[i][0]+b.x1);
+		y1 = (c[i][1]+b.y1);
+		if(y1>=_e.numy){
+			is_ok = true;
+			break;
+		};
+		if(x1<0 || x1>_e.numx-1){
+			is_ok = true;
+			break;
+		};
+		if(!is_ok){
+			for(var j=0,jen=arr.length;j<jen;j++){
+				if((arr[j].x === x1) && (arr[j].y === y1)){
+					is_ok = true;
+					break;
+				};
+			};
+		};
+		if(is_ok){
+			break;
+		};
+	};
+	return is_ok;
+};
+//变形
+_b.deformation = function(){
+	var b = _e.conduct;
+	var a = b.style.length;
+	var x = b.this_style;
+	var c = b.this_style;
+	if(a === 0){return;};
+	x++;
+	if(x === a){
+		x = 0;
+	};
+	b.this_style = x;
+	var is_ok = _b.contact(b);//接触检测
+	if(is_ok){
+		//不能变
+		b.this_style = c;
+	}else{
+		//可以变
+		_b.draw();
+	};
+};
+//向左移动
+_b.to_left = function(){
+	var b = _e.conduct;
+	var c = b.x;
+	b.x1 = b.x-1;
+	var is_ok = _b.contact(b);//接触检测
+	if(is_ok){
+		//不可以变
+		b.x1 = c;
+	}else{
+		//可以变
+		b.x = b.x1;
+		_b.draw();
+	};
+};
+//向左移动
+_b.to_right = function(){
+	var b = _e.conduct;
+	var c = b.x;
+	b.x1 = b.x+1;
+	var is_ok = _b.contact(b);//接触检测
+	if(is_ok){
+		//不可以变
+		b.x1 = c;
+	}else{
+		//可以变
+		b.x = b.x1;
+		_b.draw();
+	};
+};
+//向下移动
+_b.to_lower = function(){
+	var b = _e.conduct;
+	var c = b.y;
+	b.y1 = b.y+1;
+	var is_ok = _b.contact(b);//接触检测
+	if(is_ok){
+		//不可以变
+		b.y1 = c;
+	}else{
+		//可以变
+		b.y = b.y1;
+		_b.draw();
+	};
+};
+//消除特效绘制
+_b.clear_draw = function(x1,arry,data){
+	ctx.save();
+	ctx.translate(_e._x,_e._y);
+	for(var i=0;i<arry.length;i++){
+		ctx.clearRect(arry[i].x,arry[i].y*_e._w,_e.all_w,_e._w);
+	};
+	for(var i=0;i<data.length;i++){
+		var a = data[i];
+		for(var j=0,jen=a.length;j<jen;j++){
+			if(a[j].x<=x1){
+				ctx.drawImage(_e.ico_bg,a[j].x*_e._w,a[j].y*_e._w,_e._w,_e._w);
+			}else{
+				ctx.drawImage(a[j].color,a[j].x*_e._w,a[j].y*_e._w,_e._w,_e._w);
+			};
+		};
+	};
+	ctx.restore();
+};
+//特效显示后整体下移
+_b.move_down = function(arry){
+	var c = [];
+	for(var i=0,len=arry.length;i<len;i++){
+		c.push(arry[i].y);
+	};
+	var arr = _e.all;
+	var a1 = [];
+	var a2 = {};
+	for(var i=0,len=arr.length;i<len;i++){
+		if(!arr[i].state){
+			if(a2[arr[i].y] === undefined){
+				var num1 = 0;
+				for(var j=c.length-1;j>=0;j--){
+					if(arr[i].y<=c[j]){
+						num1++;
+					};
+				};
+				a2[arr[i].y] = num1;
+			};
+			arr[i].y = arr[i].y+a2[arr[i].y];
+			a1.push(arr[i]);
+		};
+	};
+	_e.all = a1;
+	_b.suiji_next();
+	_b.start_go();
+	_b.draw();
+};
+//特效处理
+_b.effects = function(data){
+	//关闭定时器
+	_a.time1 && clearInterval(_a.time1);
+	//处理特效
+	_a.df_num1 += data.length*10;
+	_a.df_hang += data.length;
+	//绘制得分
+	_b.defen(_a.df_num1);
+	//消灭行数
+	_b.hangshu(_a.df_hang);
+	//把要消除的对象用参数标记下
+	//从左到右消失
+	var arry = [];
+	for(var i=0;i<data.length;i++){
+		var a = data[i];
+		arry.push({x:a[0].x,y:a[0].y});
+		for(var j=0,jen=a.length;j<jen;j++){
+			a[j].state = 1;//表示要消失了
+		};
+	};
+	//先把需要重绘的地方计算出来
+	var time1 = null;
+	var x1 = 0;//闪4下
+	time1 = setInterval(function(){
+		_b.clear_draw(x1,arry,data);
+		x1++;
+		if(x1 === _e.numx){
+			//消除行后整体下移
+			_b.move_down(arry);
+			clearInterval(time1);
+		};
+	},30);
+};
+//检测是否有得分
+_b.score = function(b){
+	//得到这个图像的所有y坐标
+	var c = b.style[b.this_style];
+	var a = [];
+	for(var i=0,len=c.length;i<len;i++){
+		var y = c[i][1]+b.y;
+		if(a.indexOf(y) === -1){
+			a.push(y);
+		};
+	};
+	a.sort();
+	var e = [];
+	var arr = _e.all;
+	for(var i=0,len=a.length;i<len;i++){
+		var e1 = [];
+		for(var j=0,jen=arr.length;j<jen;j++){
+			if(arr[j].y === a[i]){
+				e1.push(arr[j]);
+			};
+		};
+		e.push(e1);
+	};
+	//判断那个数组的长度达到了满行
+	var d = [];
+	for(var i=0;i<e.length;i++){
+		if(e[i].length === _e.numx){
+			d.push(e[i]);
+		};
+	};
+	if(d.length>0){
+		return d;
+	}else{
+		return false;
+	};
+};
+//数据检测计算
+_b.calculation = function(){
+	var x1,y1;
+	var b = _e.conduct;
+	b.y1 = b.y+1;
+
+	var is_ok = _b.contact(b);//接触检测
+	
+	if(is_ok){
+		b.state = 2;
+		//这里不是放进去整个形状的对象而是把形状中所占坐标的每个方块
+		var c = b.style[b.this_style];
+		for(var i=0,len=c.length;i<len;i++){
+			var jsn = {
+				x:c[i][0]+b.x,
+				y:c[i][1]+b.y,
+				color:b.color
+			};
+			_e.all.push(jsn);
+		};
+		//这里要进行判断是否有要消除的行
+		//有的话关闭定时器显示消行特效
+		//显示完毕加分开启定时器进行下一个
+		var is_defen = _b.score(b);//检测有没有得分返回boolean值false没有得分或者返回数组
+		if(is_defen){
+			//有得分处理特效
+			_b.effects(is_defen);
+		}else{
+			//没有得分继续下一个
+			_b.suiji_next();
+		};
+	}else{
+		b.y = b.y1;
+		b.x = b.x1;
+		_b.draw();
+	};
+	
 };
 //开始
 _b.start = function(){
 	if(_e.status === 0){
 		_e.status = 1;
 		//要产生2个随机图形
-		var a = _e.suiji.length;
-		var b = [];
 		for(var i=0;i<2;i++){
-			var shiji = Math.floor(Math.random()*a);
-			var jsn = {
-				this_style:0,
-				style:_e.suiji[shiji],
-				color:_e.domimg[Math.floor(Math.random()*7)],
-				status:0,//预显示
-			};
-			b.push(jsn);
+			_b.suiji_next();
 		};
-		_e.all.push(b[0]);
-		_b.next(b[1]);
-	}
+		//表示是下落中的对象
+		//下落完成后才放入all数组中
+		_a.num1 = 1;//定时器累加的
+		_a.jiange = 10;
+		_b.start_go();
+	};
+};
+//随机产生下一个图形
+_b.suiji_next = function(){
+	var a = _e.suiji.length;
+	var shiji = Math.floor(Math.random()*a);
+	var jsn = {
+		this_style:0,
+		style:_e.suiji[shiji],
+		color:_e.domimg[Math.floor(Math.random()*7)],
+		x:6,//x坐标的基数
+		y:-2,//y坐标的基数每次都会加1
+		x1:6,//下一帧的坐标
+		y1:-2,//下一帧的坐标
+		index:0,//所在矩阵当中的那个位置比如第10个也是在不会动之后才计算出来
+		state:0,//0预显示//1开始下落//2固定//3消失
+	};
+	_b.next(jsn);
+};
+_b.start_go = function(){
+	_a.time1 && clearInterval(_a.time1);
+	_a.time1 = setInterval(function(){
+		_a.num1++;
+		if(_a.num1%_a.jiange === 0){
+			_b.calculation();
+		};
+	},30);
 };
 _b.initialize();
 setTimeout(function(){
-	_b.draw();
+	ctx.save();
+	ctx.translate(_e._x,_e._y);
+	_b.draw_bg();
+	ctx.restore();
 },10);
 
 
