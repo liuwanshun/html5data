@@ -42,7 +42,7 @@ _b.rect_ra = function(x,y,w,h,radius,fillcolor,text,textcolor){
 	ctx.arc(x+radius,y+h-radius,radius,.5*Math.PI,Math.PI,false);
 	ctx.closePath();
 	ctx.fill();
-	ctx.font = 27*rem+"px Microsoft YaHei 100";
+	ctx.font = Math.floor(27*rem)+"px Microsoft YaHei 100";
 	ctx.strokeStyle = textcolor;
 	ctx.textAlign = "center";
 	ctx.textBaseline = "middle";
@@ -50,29 +50,29 @@ _b.rect_ra = function(x,y,w,h,radius,fillcolor,text,textcolor){
 };
 
 //绘制得分
-_a.df_x = 578*rem;
-_a.df_y = 314*rem;
-_a.df_w = 170*rem;
-_a.df_h = 40*rem;
-_a.df_f = 22*rem;
+_a.df_x = Math.floor(578*rem);
+_a.df_y = Math.floor(344*rem);
+_a.df_w = Math.floor(170*rem);
+_a.df_h = Math.floor(40*rem);
+_a.df_f = Math.floor(40*rem);
 _a.df_num1 = 0;
 _a.df_hang = 0;
 _b.defen = function(num){
-	ctx.clearRect(_a.df_x-15*rem,_a.df_y-15*rem,_a.df_w,_a.df_h);
-	ctx.font = _a.df_f+"px Microsoft YaHei 100";
+	ctx.clearRect(_a.df_x-Math.floor(15*rem),_a.df_y-Math.floor(15*rem),_a.df_w,_a.df_h);
+	ctx.font = _a.df_f+"px Microsoft YaHei";
 	ctx.strokeStyle = "#0b2680";
 	ctx.textBaseline = "middle";
 	ctx.strokeText(num,_a.df_x,_a.df_y);
 };
 
 //绘制消灭行数
-_a.hang_x = 578*rem;
-_a.hang_y = 482*rem;
-_a.hang_w = 170*rem;
-_a.hang_h = 40*rem;
-_a.hang_f = 22*rem;
+_a.hang_x = Math.floor(578*rem);
+_a.hang_y = Math.floor(522*rem);
+_a.hang_w = Math.floor(170*rem);
+_a.hang_h = Math.floor(40*rem);
+_a.hang_f = Math.floor(22*rem);
 _b.hangshu = function(num){
-	ctx.clearRect(_a.hang_x-15*rem,_a.hang_y-15*rem,_a.hang_w,_a.hang_h);
+	ctx.clearRect(_a.hang_x-Math.floor(15*rem),_a.hang_y-Math.floor(15*rem),_a.hang_w,_a.hang_h);
 	ctx.font = _a.hang_f+"px Microsoft YaHei 100";
 	ctx.strokeStyle = "#0b2680";
 	ctx.textBaseline = "middle";
@@ -90,80 +90,80 @@ _b.test_fn = function(x,y,type){
 
 //绘制静态的按钮区域
 _b.initialize = function(){
-	ctx.font = 26*rem+"px Microsoft YaHei 100";
+	ctx.font = Math.floor(26*rem)+"px Microsoft YaHei 100";
 	ctx.strokeStyle = "#000";
 	ctx.textBaseline = "middle";
-	ctx.strokeText("电脑可以用",25*rem,840*rem);
+	ctx.strokeText("电脑可以用",Math.floor(25*rem),Math.floor(840*rem));
 
 	//画小箭头
 	ctx.save();
-	ctx.translate(172*rem,848*rem);
+	ctx.translate(Math.floor(172*rem),Math.floor(848*rem));
 	ctx.beginPath();
 	ctx.fillStyle = "#3a0e0e";
-	ctx.moveTo(-3*rem,18*rem);
-	ctx.lineTo(3*rem,18*rem);
-	ctx.lineTo(3*rem,-15*rem);
-	ctx.lineTo(10*rem,-15*rem);
-	ctx.lineTo(0,-38*rem);
-	ctx.lineTo(-10*rem,-15*rem);
-	ctx.lineTo(-3*rem,-15*rem);
+	ctx.moveTo(Math.floor(-3*rem),Math.floor(18*rem));
+	ctx.lineTo(Math.floor(3*rem),Math.floor(18*rem));
+	ctx.lineTo(Math.floor(3*rem),Math.floor(-15*rem));
+	ctx.lineTo(Math.floor(10*rem),Math.floor(-15*rem));
+	ctx.lineTo(0,Math.floor(-38*rem));
+	ctx.lineTo(Math.floor(-10*rem),Math.floor(-15*rem));
+	ctx.lineTo(Math.floor(-3*rem),Math.floor(-15*rem));
 	ctx.closePath();
 	ctx.fill();
 	ctx.restore();
 
-	ctx.strokeText("键变换",190*rem,840*rem);
+	ctx.strokeText("键变换",Math.floor(190*rem),Math.floor(840*rem));
 
 	//画向左的小箭头
 	ctx.save();
-	ctx.translate(315*rem,840*rem);
+	ctx.translate(Math.floor(315*rem),Math.floor(840*rem));
 	ctx.rotate(-90*Math.PI/180);
 	ctx.beginPath();
-	ctx.moveTo(-3*rem,18*rem);
-	ctx.lineTo(3*rem,18*rem);
-	ctx.lineTo(3*rem,-15*rem);
-	ctx.lineTo(10*rem,-15*rem);
-	ctx.lineTo(0,-38*rem);
-	ctx.lineTo(-10*rem,-15*rem);
-	ctx.lineTo(-3*rem,-15*rem);
+	ctx.moveTo(Math.floor(-3*rem),Math.floor(18*rem));
+	ctx.lineTo(Math.floor(3*rem),Math.floor(18*rem));
+	ctx.lineTo(Math.floor(3*rem),Math.floor(-15*rem));
+	ctx.lineTo(Math.floor(10*rem),Math.floor(-15*rem));
+	ctx.lineTo(0,Math.floor(-38*rem));
+	ctx.lineTo(Math.floor(-10*rem),Math.floor(-15*rem));
+	ctx.lineTo(Math.floor(-3*rem),Math.floor(-15*rem));
 	ctx.closePath();
 	ctx.fill();
 	ctx.restore();
 
-	ctx.strokeText("键向左",340*rem,840*rem);
+	ctx.strokeText("键向左",Math.floor(340*rem),Math.floor(840*rem));
 
 	//画向右的小箭头
 	ctx.save();
-	ctx.translate(455*rem,840*rem);
+	ctx.translate(Math.floor(455*rem),Math.floor(840*rem));
 	ctx.rotate(90*Math.PI/180);
 	ctx.beginPath();
-	ctx.moveTo(-3*rem,18*rem);
-	ctx.lineTo(3*rem,18*rem);
-	ctx.lineTo(3*rem,-15*rem);
-	ctx.lineTo(10*rem,-15*rem);
-	ctx.lineTo(0,-38*rem);
-	ctx.lineTo(-10*rem,-15*rem);
-	ctx.lineTo(-3*rem,-15*rem);
+	ctx.moveTo(Math.floor(-3*rem),Math.floor(18*rem));
+	ctx.lineTo(Math.floor(3*rem),Math.floor(18*rem));
+	ctx.lineTo(Math.floor(3*rem),Math.floor(-15*rem));
+	ctx.lineTo(Math.floor(10*rem),Math.floor(-15*rem));
+	ctx.lineTo(0,Math.floor(-38*rem));
+	ctx.lineTo(Math.floor(-10*rem),Math.floor(-15*rem));
+	ctx.lineTo(Math.floor(-3*rem),Math.floor(-15*rem));
 	ctx.closePath();
 	ctx.fill();
 	ctx.restore();
-	ctx.strokeText("键向右",505*rem,840*rem);
+	ctx.strokeText("键向右",Math.floor(505*rem),Math.floor(840*rem));
 
 	//画向下的小箭头
 	ctx.save();
-	ctx.translate(605*rem,835*rem);
+	ctx.translate(Math.floor(605*rem),Math.floor(835*rem));
 	ctx.rotate(180*Math.PI/180);
 	ctx.beginPath();
-	ctx.moveTo(-3*rem,18*rem);
-	ctx.lineTo(3*rem,18*rem);
-	ctx.lineTo(3*rem,-15*rem);
-	ctx.lineTo(10*rem,-15*rem);
-	ctx.lineTo(0,-38*rem);
-	ctx.lineTo(-10*rem,-15*rem);
-	ctx.lineTo(-3*rem,-15*rem);
+	ctx.moveTo(Math.floor(-3*rem),Math.floor(18*rem));
+	ctx.lineTo(Math.floor(3*rem),Math.floor(18*rem));
+	ctx.lineTo(Math.floor(3*rem),Math.floor(-15*rem));
+	ctx.lineTo(Math.floor(10*rem),Math.floor(-15*rem));
+	ctx.lineTo(0,Math.floor(-38*rem));
+	ctx.lineTo(Math.floor(-10*rem),Math.floor(-15*rem));
+	ctx.lineTo(Math.floor(-3*rem),Math.floor(-15*rem));
 	ctx.closePath();
 	ctx.fill();
 	ctx.restore();
-	ctx.strokeText("下落",620*rem,840*rem);
+	ctx.strokeText("下落",Math.floor(620*rem),Math.floor(840*rem));
 
 	//画圆角矩形
 	//把按钮的坐标点保存起来
@@ -171,122 +171,122 @@ _b.initialize = function(){
 	var jsn = {
 		type:1,
 		msg:"变换",
-		x:209*rem,
-		y:879*rem,
-		w:125*rem,
-		h:56*rem,
-		x1:209*rem+125*rem,
-		y1:879*rem+56*rem,
+		x:Math.floor(209*rem),
+		y:Math.floor(879*rem),
+		w:Math.floor(125*rem),
+		h:Math.floor(56*rem),
+		x1:Math.floor(209*rem)+Math.floor(125*rem),
+		y1:Math.floor(879*rem)+Math.floor(56*rem),
 		fillcolor:"#3a0e0e",
 		fillcolor_hover:"#1a0a0a",
 	};
 	_d.push(jsn);
-	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,10*rem,jsn.fillcolor,jsn.msg,"#efb456");
+	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,Math.floor(10*rem),jsn.fillcolor,jsn.msg,"#efb456");
 
 	//向左按钮
 	jsn = {
 		type:2,
 		msg:"向左",
-		x:69*rem,
-		y:944*rem,
-		w:125*rem,
-		h:56*rem,
-		x1:69*rem+125*rem,
-		y1:944*rem+56*rem,
+		x:Math.floor(69*rem),
+		y:Math.floor(944*rem),
+		w:Math.floor(125*rem),
+		h:Math.floor(56*rem),
+		x1:Math.floor(69*rem)+Math.floor(125*rem),
+		y1:Math.floor(944*rem)+Math.floor(56*rem),
 		fillcolor:"#3a0e0e",
 		fillcolor_hover:"#1a0a0a",
 	};
 	_d.push(jsn);
-	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,10*rem,jsn.fillcolor,jsn.msg,"#efb456");
+	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,Math.floor(10*rem),jsn.fillcolor,jsn.msg,"#efb456");
 
 	//向右按钮
 	jsn = {
 		type:3,
 		msg:"向右",
-		x:346*rem,
-		y:944*rem,
-		w:125*rem,
-		h:56*rem,
-		x1:346*rem+125*rem,
-		y1:944*rem+56*rem,
+		x:Math.floor(346*rem),
+		y:Math.floor(944*rem),
+		w:Math.floor(125*rem),
+		h:Math.floor(56*rem),
+		x1:Math.floor(346*rem)+Math.floor(125*rem),
+		y1:Math.floor(944*rem)+Math.floor(56*rem),
 		fillcolor:"#3a0e0e",
 		fillcolor_hover:"#1a0a0a",
 	};
 	_d.push(jsn);
-	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,10*rem,jsn.fillcolor,jsn.msg,"#efb456");
+	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,Math.floor(10*rem),jsn.fillcolor,jsn.msg,"#efb456");
 
 	//下落按钮
 	jsn = {
 		type:4,
 		msg:"下落",
-		x:209*rem,
-		y:1000*rem,
-		w:125*rem,
-		h:56*rem,
-		x1:209*rem+125*rem,
-		y1:1000*rem+56*rem,
+		x:Math.floor(209*rem),
+		y:Math.floor(1000*rem),
+		w:Math.floor(125*rem),
+		h:Math.floor(56*rem),
+		x1:Math.floor(209*rem)+Math.floor(125*rem),
+		y1:Math.floor(1000*rem)+Math.floor(56*rem),
 		fillcolor:"#3a0e0e",
 		fillcolor_hover:"#1a0a0a",
 	};
 	_d.push(jsn);
-	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,10*rem,jsn.fillcolor,jsn.msg,"#efb456");
+	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,Math.floor(10*rem),jsn.fillcolor,jsn.msg,"#efb456");
 
 	//开始按钮
 	jsn = {
 		type:5,
 		msg:"开始",
-		x:562*rem,
-		y:897*rem,
-		w:125*rem,
-		h:56*rem,
-		x1:562*rem+125*rem,
-		y1:897*rem+56*rem,
+		x:Math.floor(562*rem),
+		y:Math.floor(897*rem),
+		w:Math.floor(125*rem),
+		h:Math.floor(56*rem),
+		x1:Math.floor(562*rem)+Math.floor(125*rem),
+		y1:Math.floor(897*rem)+Math.floor(56*rem),
 		fillcolor:"#3a0e0e",
 		fillcolor_hover:"#1a0a0a",
 	};
 	_d.push(jsn);
-	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,10*rem,jsn.fillcolor,jsn.msg,"#efb456");
+	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,Math.floor(10*rem),jsn.fillcolor,jsn.msg,"#efb456");
 
 	//暂停按钮
 	jsn = {
 		type:6,
 		msg:"暂停",
-		x:562*rem,
-		y:972*rem,
-		w:125*rem,
-		h:56*rem,
-		x1:562*rem+125*rem,
-		y1:972*rem+56*rem,
+		x:Math.floor(562*rem),
+		y:Math.floor(972*rem),
+		w:Math.floor(125*rem),
+		h:Math.floor(56*rem),
+		x1:Math.floor(562*rem)+Math.floor(125*rem),
+		y1:Math.floor(972*rem)+Math.floor(56*rem),
 		fillcolor:"#3a0e0e",
 		fillcolor_hover:"#1a0a0a",
 	};
 	_d.push(jsn);
-	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,10*rem,jsn.fillcolor,jsn.msg,"#efb456");
+	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,Math.floor(10*rem),jsn.fillcolor,jsn.msg,"#efb456");
 
 	//音乐按钮
 	jsn = {
 		type:7,
 		msg:"音乐开/关",
-		x:566*rem,
-		y:701*rem,
-		w:152*rem,
-		h:40*rem,
-		x1:566*rem+152*rem,
-		y1:701*rem+40*rem,
+		x:Math.floor(566*rem),
+		y:Math.floor(701*rem),
+		w:Math.floor(152*rem),
+		h:Math.floor(40*rem),
+		x1:Math.floor(566*rem)+Math.floor(152*rem),
+		y1:Math.floor(701*rem)+Math.floor(40*rem),
 		fillcolor:"#2e2c2c",
 		fillcolor_hover:"#1a0a0a",
 	};
 	_d.push(jsn);
-	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,10*rem,jsn.fillcolor,jsn.msg,"#efb456");
+	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,Math.floor(10*rem),jsn.fillcolor,jsn.msg,"#efb456");
 
 	//文字
-	ctx.font = 32*rem+"px Microsoft YaHei 100";
+	ctx.font = Math.floor(40*rem)+"px Microsoft YaHei normal";
 	ctx.strokeStyle = "#15e24f";
 	ctx.textAlign = "start";
 	ctx.textBaseline = "top";
-	ctx.strokeText("下一个",576*rem,28*rem);
-	ctx.strokeText("得分",576*rem,259*rem);
-	ctx.strokeText("消灭行数",576*rem,426*rem);
+	ctx.strokeText("下一个",Math.floor(576*rem),Math.floor(28*rem));
+	ctx.strokeText("得分",Math.floor(576*rem),Math.floor(259*rem));
+	ctx.strokeText("消灭行数",Math.floor(576*rem),Math.floor(426*rem));
 	//下一个图案
 	_b.next();
 
