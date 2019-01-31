@@ -42,7 +42,7 @@ _b.rect_ra = function(x,y,w,h,radius,fillcolor,text,textcolor){
 	ctx.arc(x+radius,y+h-radius,radius,.5*Math.PI,Math.PI,false);
 	ctx.closePath();
 	ctx.fill();
-	ctx.font = Math.floor(27*rem)+"px Microsoft YaHei 100";
+	ctx.font = Math.floor(27*rem)+"px";
 	ctx.strokeStyle = textcolor;
 	ctx.textAlign = "center";
 	ctx.textBaseline = "middle";
@@ -53,13 +53,22 @@ _b.rect_ra = function(x,y,w,h,radius,fillcolor,text,textcolor){
 _a.df_x = Math.floor(578*rem);
 _a.df_y = Math.floor(344*rem);
 _a.df_w = Math.floor(170*rem);
+<<<<<<< HEAD
 _a.df_h = Math.floor(100*rem);
+=======
+_a.df_h = Math.floor(60*rem);
+>>>>>>> 4fdd18f2a8559be7fa512b104f031190dd16c5f7
 _a.df_f = Math.floor(40*rem);
 _a.df_num1 = 0;
 _a.df_hang = 0;
 _b.defen = function(num){
+<<<<<<< HEAD
 	ctx.clearRect(_a.df_x-30,_a.df_y-10,_a.df_w+30,_a.df_h);
 	ctx.font = _a.df_f+"px";
+=======
+	ctx.clearRect(_a.df_x-15,_a.df_y-15,_a.df_w,_a.df_h);
+	ctx.font = _a.df_f+"px Microsoft YaHei";
+>>>>>>> 4fdd18f2a8559be7fa512b104f031190dd16c5f7
 	ctx.strokeStyle = "#0b2680";
 	ctx.textBaseline = "middle";
 	ctx.strokeText(num,_a.df_x,_a.df_y);
@@ -69,11 +78,19 @@ _b.defen = function(num){
 _a.hang_x = Math.floor(578*rem);
 _a.hang_y = Math.floor(522*rem);
 _a.hang_w = Math.floor(170*rem);
+<<<<<<< HEAD
 _a.hang_h = Math.floor(50*rem);
 _a.hang_f = Math.floor(22*rem);
 _b.hangshu = function(num){
 	ctx.clearRect(_a.hang_x-15,_a.hang_y-15,_a.hang_w,_a.hang_h);
 	ctx.font = _a.hang_f+"px 100";
+=======
+_a.hang_h = Math.floor(60*rem);
+_a.hang_f = Math.floor(22*rem);
+_b.hangshu = function(num){
+	ctx.clearRect(_a.hang_x-15,_a.hang_y-15,_a.hang_w,_a.hang_h);
+	ctx.font = _a.hang_f+"px Microsoft YaHei 100";
+>>>>>>> 4fdd18f2a8559be7fa512b104f031190dd16c5f7
 	ctx.strokeStyle = "#0b2680";
 	ctx.textBaseline = "middle";
 	ctx.strokeText(num,_a.hang_x,_a.hang_y);
@@ -93,7 +110,7 @@ _b.initialize = function(){
 	ctx.font = Math.floor(26*rem)+"px Microsoft YaHei 100";
 	ctx.strokeStyle = "#000";
 	ctx.textBaseline = "middle";
-	ctx.strokeText("电脑可以用",Math.floor(25*rem),Math.floor(840*rem));
+	ctx.strokeText("键盘可以用",Math.floor(25*rem),Math.floor(840*rem));
 
 	//画小箭头
 	ctx.save();
@@ -264,20 +281,23 @@ _b.initialize = function(){
 	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,Math.floor(10*rem),jsn.fillcolor,jsn.msg,"#efb456");
 
 	//音乐按钮
-	jsn = {
-		type:7,
-		msg:"音乐开/关",
-		x:Math.floor(566*rem),
-		y:Math.floor(701*rem),
-		w:Math.floor(152*rem),
-		h:Math.floor(40*rem),
-		x1:Math.floor(566*rem)+Math.floor(152*rem),
-		y1:Math.floor(701*rem)+Math.floor(40*rem),
-		fillcolor:"#2e2c2c",
-		fillcolor_hover:"#1a0a0a",
+	if(false){
+		jsn = {
+			type:7,
+			msg:"音乐开/关",
+			x:Math.floor(566*rem),
+			y:Math.floor(701*rem),
+			w:Math.floor(152*rem),
+			h:Math.floor(40*rem),
+			x1:Math.floor(566*rem)+Math.floor(152*rem),
+			y1:Math.floor(701*rem)+Math.floor(40*rem),
+			fillcolor:"#2e2c2c",
+			fillcolor_hover:"#1a0a0a",
+		};
+		_d.push(jsn);
+		_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,Math.floor(10*rem),jsn.fillcolor,jsn.msg,"#efb456");
 	};
-	_d.push(jsn);
-	_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,Math.floor(10*rem),jsn.fillcolor,jsn.msg,"#efb456");
+	
 
 	//文字
 	ctx.font = Math.floor(40*rem)+"px Microsoft YaHei normal";
@@ -799,6 +819,12 @@ _b.calculation = function(){
 			//有得分处理特效
 			_b.effects(is_defen);
 		}else{
+			if(b.y<2){
+				alert("游戏结束");
+				_e.status = 0;
+				_a.time1 && clearInterval(_a.time1);
+				return;
+			};
 			//没有得分继续下一个
 			_b.suiji_next();
 		};
@@ -812,6 +838,9 @@ _b.calculation = function(){
 //开始
 _b.start = function(){
 	if(_e.status === 0){
+		_e.all = [];
+		_b.defen(0);
+		_b.hangshu(0);
 		_e.status = 1;
 		//要产生2个随机图形
 		for(var i=0;i<2;i++){
