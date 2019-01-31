@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>书上的案例1</title>
+	<style>
+		#mycanvas{
+			display:block;
+			margin:100px auto;
+			background: #ccc;
+		}
+	</style>
+</head>
+<body>
+<canvas id="mycanvas" width="500" height="300"></canvas>
+<script>
+var canvas = document.querySelector("#mycanvas");
+var context = canvas.getContext("2d");
+//绘制阴影l
+function drawGrid(color,stepx,stepx){
+
+};
+
+function drawTwoArcs(){
+	context.beginPath();
+	context.arc(300,190,150,0,Math.PI*2,false);//out
+	context.arc(300,190,100,0,Math.PI*2,false);//inner
+	context.fill();
+	context.showdowColor = undefined;
+	context.showdowOffsetX = 0;
+	context.showdowOffsetY = 0;
+	context.stroke();
+}
+function draw(){
+	context.clearRect(0,0,canvas.width,canvas.height);
+	drawGrid('lightgray',10,10);
+	context.save();
+	context.showdowColor = "rgba(0,0,0,.8)";
+	context.showdowOffsetX = 12;
+	context.showdowOffsetX = 12;
+	context.showdowBlur = 15;
+	drawTwoArcs();
+	context.restore();
+}
+context.fillStyle = "rgba(100,140,230,0.5)";
+context.strokeStyle = context.fillStyle;
+draw();
+
+</script>
+</body>
+</html>

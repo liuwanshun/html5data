@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>物理掉落效果</title>
+	<style>
+		#mycanvas{
+			border:solid 1px #ccc;
+			display: block;
+			margin: 0 auto;
+			margin-top: 50px;
+		}
+	</style>
+</head>
+<body>
+<canvas id="mycanvas" width="1000" height="500"></canvas>
+<script>
+var mycanvas = document.querySelector("#mycanvas");
+var context = mycanvas.getContext("2d");
+var arr = [{x:500,y:100,r:8,g:2,vx:3,m:0.01,vy:2,color:"red"}];
+var draw = function(){
+	context.clearRect(0,0,mycanvas.width,mycanvas.height);
+	for(var i=0,len=arr.length;i<len;i++){
+		context.beginPath();
+		context.arc(arr[i].x,arr[i].y,arr[i].r,0,2*Math.PI,false);
+		context.fillStyle = arr[i].color;
+		context.closePath();
+		context.fill();
+	};
+};
+var updata = function(){
+	for(var i=0,len=arr.length;i<len;i++){
+		if(arr[i].state === 2){
+			continue;
+		};
+		arr[i].x = arr[i].x+arr[i].vx;
+		if(arr[i].vx>0){
+			arr[i].vx -= arr[i].m;
+		}else if(arr[i].vx<0){
+			arr[i].vx += arr[i].m;
+		};
+		arr[i].y = arr[i].y+arr[i].vy;
+		arr[i].vy = arr[i].g+arr[i].vy;
+		if(arr[i].y+arr[i].r>=mycanvas.height){
+			arr[i].y = mycanvas.height-arr[i].r;
+			arr[i].vy = -arr[i].vy*.5;
+			//7.4117550881987615
+			//console.log(Math.abs(arr[i].vy));
+			// if(Math.abs(arr[i].vy)<8){
+			// 	arr[i].state = 2;
+			// };
+		}
+	};
+};
+draw();
+setInterval(function(){
+	draw();
+	updata();
+},50);
+</script>
+</body>
+</html>
