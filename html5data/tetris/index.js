@@ -53,13 +53,13 @@ _b.rect_ra = function(x,y,w,h,radius,fillcolor,text,textcolor){
 _a.df_x = Math.floor(578*rem);
 _a.df_y = Math.floor(344*rem);
 _a.df_w = Math.floor(170*rem);
-_a.df_h = Math.floor(40*rem);
+_a.df_h = Math.floor(100*rem);
 _a.df_f = Math.floor(40*rem);
 _a.df_num1 = 0;
 _a.df_hang = 0;
 _b.defen = function(num){
-	ctx.clearRect(_a.df_x-Math.floor(15*rem),_a.df_y-Math.floor(15*rem),_a.df_w,_a.df_h);
-	ctx.font = _a.df_f+"px Microsoft YaHei";
+	ctx.clearRect(_a.df_x-30,_a.df_y-10,_a.df_w+30,_a.df_h);
+	ctx.font = _a.df_f+"px";
 	ctx.strokeStyle = "#0b2680";
 	ctx.textBaseline = "middle";
 	ctx.strokeText(num,_a.df_x,_a.df_y);
@@ -69,11 +69,11 @@ _b.defen = function(num){
 _a.hang_x = Math.floor(578*rem);
 _a.hang_y = Math.floor(522*rem);
 _a.hang_w = Math.floor(170*rem);
-_a.hang_h = Math.floor(40*rem);
+_a.hang_h = Math.floor(50*rem);
 _a.hang_f = Math.floor(22*rem);
 _b.hangshu = function(num){
-	ctx.clearRect(_a.hang_x-Math.floor(15*rem),_a.hang_y-Math.floor(15*rem),_a.hang_w,_a.hang_h);
-	ctx.font = _a.hang_f+"px Microsoft YaHei 100";
+	ctx.clearRect(_a.hang_x-15,_a.hang_y-15,_a.hang_w,_a.hang_h);
+	ctx.font = _a.hang_f+"px 100";
 	ctx.strokeStyle = "#0b2680";
 	ctx.textBaseline = "middle";
 	ctx.strokeText(num,_a.hang_x,_a.hang_y);
