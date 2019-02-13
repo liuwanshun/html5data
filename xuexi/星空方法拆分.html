@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>绘制五角星</title>
+<style type="text/css">
+	#mycanvas{
+		display: block;
+		margin: 0 auto;
+		margin-top: 100px;
+		border:solid 1px #ccc;
+	}
+</style>
+</head>
+<body>
+<canvas id="mycanvas" width="500" height="500">
+	您的浏览不支持canvas标签，请更换浏览器
+</canvas>
+<script type="text/javascript">
+window.onload = function(){
+	var mycanvas = document.querySelector("#mycanvas");
+	var ctx = mycanvas.getContext("2d");
+	ctx.fillStyle = "black";
+	ctx.fillRect(0,0,mycanvas.width,mycanvas.height);
+	console.time('time1');
+	for(var i=0;i<300;i++){
+		var x = Math.random()*mycanvas.width;
+		var y = Math.random()*mycanvas.height;
+		var R = Math.random()*3+8;
+		var a = Math.random()*360;
+    	drawfive(ctx,x,y,R,a);
+	};
+	console.timeEnd('time1');
+};
+
+//一个canvas的对象，中心点x，中心点y，大圆半径不，小圆半径，旋转角度哈哈
+var drawfive = function(ctx,x,y,R,radio){
+	
+	ctx.save();
+	ctx.translate(x,y);
+	ctx.rotate(radio/180*Math.PI);
+	ctx.scale(R,R);
+	satrPath(ctx);
+	ctx.fillStyle = "#fb3";
+	//ctx.strokeStyle = "#fd5";
+	//ctx.lineWidth = 3;
+	ctx.lineJoin = "round";
+	ctx.fill();
+	//ctx.stroke();
+
+	ctx.restore();
+};
+var satrPath = function(ctx){
+	ctx.beginPath();
+	for(var i=0;i<5;i++){
+		var x1 = Math.cos((18+(i*72))/180*Math.PI);
+		var y1 = -Math.sin((18+(i*72))/180*Math.PI);
+		var x2 = Math.cos((54+(i*72))/180*Math.PI)*.5;
+		var y2 = -Math.sin((54+(i*72))/180*Math.PI)*.5;
+		ctx.lineTo(x1,y1);
+		ctx.lineTo(x2,y2);
+	};
+	ctx.closePath();
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>绘制五角星</title>
+<style type="text/css">
+	#mycanvas{
+		display: block;
+		margin: 0 auto;
+		margin-top: 100px;
+		border:solid 1px #ccc;
+	}
+</style>
+</head>
+<body>
+<canvas id="mycanvas" width="800" height="800">
+	您的浏览不支持canvas标签，请更换浏览器
+</canvas>
+<script type="text/javascript">
+window.onload = function(){
+	var mycanvas = document.querySelector("#mycanvas");
+	var context = mycanvas.getContext("2d");
+	context.fillStyle = "red";
+	context.strokeStyle = "#058";
+	context.lineWidth = 5;
+	//a c e
+	//b d f
+	//0 0 1
+	///////////////////
+	//a水平缩放
+	//b水平倾斜
+	//c垂直倾斜
+	//d垂直缩放
+	//e水平偏移
+	//f垂直偏移
+	//b,c水平、垂直倾斜
+	//e,f水平、垂直位移
+	///////////////////
+	context.save();
+	//a,b,c,d,e,f
+	context.transform(1,0,0,1,50,100);
+	context.transform(2,0,0,1.5,0,0);
+	context.transform(1,-.2,-.2,1,0,0);
+	context.setTransform(1,0,0,1,100,100);
+	context.fillRect(50,50,300,300);
+	context.strokeRect(50,50,300,300);
+	context.restore();
+
+};
+
+</script>
+</body>
+</html>
