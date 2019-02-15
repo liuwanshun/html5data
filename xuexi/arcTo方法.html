@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>arcTo方法使用</title>
+	<style>
+	 body{
+	 	margin: 0;
+	 	padding: 0;
+	 }
+		#mycanvas{
+			margin-left:auto;
+			margin-top:auto;
+			margin-top: 0px;
+		}
+	</style>
+</head>
+<body>
+<canvas id="mycanvas" width="800" height="800"></canvas>
+<script type="text/javascript">
+var canvas = document.getElementById("mycanvas");
+var ctx = canvas.getContext("2d");
+window.onload = function(){
+	ctx.beginPath();
+	ctx.moveTo(150,150);
+	ctx.arcTo(650,190,650,210,10);
+	ctx.lineWidth = 6;
+	ctx.strokeStyle = "red";
+	ctx.stroke();
+
+	ctx.beginPath();
+	ctx.moveTo(10,150);
+	ctx.lineTo(650,150);
+	ctx.lineTo(650,650);
+
+	ctx.lineWidth = 2;
+	ctx.strokeStyle = "gray";
+	ctx.stroke();
+};
+</script>
+</body>
+</html>

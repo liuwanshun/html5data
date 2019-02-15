@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>星空月亮绿地</title>
+	<style>
+		body{
+			padding: 0;
+			margin: 0;
+		}
+		#mycanvas{
+			display: block;
+			margin: 0 auto;
+			margin-top: 0px;
+		}
+	</style>
+</head>
+<body>
+<canvas id="mycanvas"></canvas>
+<script type="text/javascript">
+window.onload = function(){
+	var canvas = document.querySelector("#mycanvas");
+	canvas.width = 1000;
+	canvas.height = 700;
+	var ctx = canvas.getContext("2d");
+	
+	
+	//背景填充为一个线性
+	var grd = ctx.createLinearGradient(0,mycanvas.height,0,0);
+	grd.addColorStop(0,"#002d54");
+	grd.addColorStop(1,"#010101");
+	ctx.fillStyle = grd;
+	ctx.fillRect(0,0,mycanvas.width,mycanvas.height);
+
+	//绘制星星
+	for(var i=0;i<500;i++){
+		var x = Math.random()*mycanvas.width;
+		var y = Math.random()*mycanvas.height*.7;
+		var R = Math.random()*4+2;
+		var a = Math.random()*360;
+    	drawfive(ctx,x,y,R,a);
+	};
+	//绘制月亮[canvas的上下文关系]【x，y坐标】【月亮大小R】【弯月大小】[旋转]
+	draw_moon(ctx,600,200,50,2.5,20);
+	//绘制绿地
+	drawLand(ctx);
+};
+//绘制绿地
+function drawLand(ctx){
+	ctx.save();
+	ctx.beginPath();
+	ctx.moveTo(0,400);
+	ctx.bezierCurveTo(540,300,660,500,1000,400);
+	ctx.lineTo(1000,700);
+	ctx.lineTo(0,700);
+	ctx.closePath();
+
+	var landStyle = ctx.createLinearGradient(0,700,0,0);
+	landStyle.addColorStop(0,"#030");
+	landStyle.addColorStop(1,"#580");
+	ctx.fillStyle = landStyle;
+	ctx.fill();
+	ctx.restore();
+};
+
+//绘制月亮
+function draw_moon(ctx,x,y,R,r,rotate){
+	//先画出外半圆
+	ctx.save();
+	ctx.translate(x,y);
+	ctx.rotate(rotate*Math.PI/180);
+	ctx.translate(-x,-y);
+	ctx.beginPath();
+	ctx.arc(x,y,R,.5*Math.PI,1.5*Math.PI,true);
+	ctx.moveTo(x,y-R);
+	ctx.arcTo(x+r*R,y,x,y+R,R*dis(R,r*R)/(r*R));
+	//ctx.strokeStyle = "red";
+	ctx.fillStyle = "#f2f0e9";
+	ctx.fill();
+	ctx.restore();
+};
+function dis(x,y){
+	return Math.sqrt(x*x+y*y);
+};
+
+//一个canvas的对象，中心点x，中心点y，大圆半径不，小圆半径，旋转角度哈哈
+var drawfive = function(ctx,x,y,R,radio){
+	
+	ctx.save();
+	ctx.translate(x,y);
+	ctx.rotate(radio/180*Math.PI);
+	ctx.scale(R,R);
+	satrPath(ctx);
+	ctx.fillStyle = "#fb3";
+	//ctx.strokeStyle = "#fd5";
+	//ctx.lineWidth = 3;
+	ctx.lineJoin = "round";
+	ctx.fill();
+	//ctx.stroke();
+
+	ctx.restore();
+};
+var satrPath = function(ctx){
+	ctx.beginPath();
+	for(var i=0;i<5;i++){
+		var x1 = Math.cos((18+(i*72))/180*Math.PI);
+		var y1 = -Math.sin((18+(i*72))/180*Math.PI);
+		var x2 = Math.cos((54+(i*72))/180*Math.PI)*.5;
+		var y2 = -Math.sin((54+(i*72))/180*Math.PI)*.5;
+		ctx.lineTo(x1,y1);
+		ctx.lineTo(x2,y2);
+	};
+	ctx.closePath();
+};
+</script>
+</body>
+</html>
