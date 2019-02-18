@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>通过图形运算画一个圆环</title>
+	<style>
+		body{
+			padding: 0;
+			margin: 0;
+		}
+		#mycanvas{
+			display: block;
+			margin: 0 auto;
+			margin-top: 100px;
+			border:solid 1px #ccc;
+		}
+	</style>
+</head>
+<body>
+<canvas id="mycanvas"></canvas>
+<script>
+window.onload = function(){
+	var canvas = document.getElementById("mycanvas");
+	canvas.width = 500;
+	canvas.height = 500;
+	ctx = canvas.getContext("2d");
+	ctx.fillStyle = "green";
+	ctx.rect(50,50,400,400);
+	drawract(ctx);//画一个矩形路径是反着的
+	drawtriangle(ctx);
+	ctx.arc(350,350,50,0,Math.PI*2,true);
+	ctx.shadowColor = "#555";
+	ctx.shadowOffsetX = 2;
+	ctx.shadowOffsetY = 2;
+	ctx.shadowBlur = 5;
+	ctx.fill();
+};
+//矩形
+function drawract(ctx){
+	ctx.moveTo(100,100);
+	ctx.lineTo(100,200);
+	ctx.lineTo(400,200);
+	ctx.lineTo(400,100);
+	ctx.lineTo(100,100);
+};
+//三角形
+function drawtriangle(ctx){
+	ctx.moveTo(150,300);
+	ctx.lineTo(100,400);
+	ctx.lineTo(200,400);
+	ctx.lineTo(150,300);
+};
+</script>
+</body>
+</html>

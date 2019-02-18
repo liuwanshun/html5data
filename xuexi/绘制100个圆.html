@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>绘制100个圆</title>
+	<style>
+	body{
+		padding:0;
+		margin:0;
+	}
+	#mycanvas{
+		display: block;
+		margin:0 auto;
+		margin-top:30px;
+		border:solid 1px #ccc;
+	}
+	</style>
+</head>
+<body>
+<canvas id="mycanvas"></canvas>
+<script>
+window.onload = function(){
+	var canvas = document.getElementById("mycanvas");
+	canvas.width = 800;
+	canvas.height = 500;
+	var ctx = canvas.getContext("2d");
+	ctx.globalAlpha = .7;
+	for(var i=0;i<100;i++){
+		var r = Math.floor(Math.random()*255);
+		var g = Math.floor(Math.random()*255);
+		var b = Math.floor(Math.random()*255);
+		ctx.fillStyle = "rgb("+r+","+g+","+b+")";
+		ctx.beginPath();
+		ctx.arc(Math.random()*canvas.width,Math.random()*canvas.height,Math.random()*50,0,Math.PI*2,false);
+		ctx.fill();
+	};
+};
+</script>
+</body>
+</html>

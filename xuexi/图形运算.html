@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图形运算</title>
+	<style>
+		body{
+			padding: 0;
+			margin: 0;
+		}
+		#mycanvas{
+			display: block;
+			margin: 0 auto;
+			border:solid 1px #ccc;
+			margin-top:10px;
+		}
+		.btns{
+			margin-top:21px;
+			text-align:center;
+		}
+		.btns a{
+			margin: 0 5px;
+		}
+	</style>
+</head>
+<body>
+<canvas id="mycanvas"></canvas>
+<div class="btns">
+	<a href="#" title="后绘制覆盖源图像">source-over</a>
+	<a href="#" title="后绘制图像剪入源图像">source-atop</a>
+	<a href="#" title="保留相加的部分，后绘制覆盖源图像">source-in</a>
+	<a href="#" title="后绘制减去源图像，只保留剩余部分">source-out</a>
+	<a href="#" title="源图像覆盖后绘制">destination-over</a>
+	<a href="#" title="源图像剪入后绘制图像">destination-atop</a>
+	<a href="#" title="保留相加的部分，源图像覆盖后绘制">destination-in</a>
+	<a href="#" title="源图像减去后绘制，只保留剩余部分">destination-out</a>
+	<a href="#" title="重叠部分颜色重新计算赋值">lighter</a>
+	<a href="#" title="只保留后绘制的图像">copy</a>
+	<a href="#" title="去掉重合部分">xor</a>
+</div>
+<script>
+window.onload = function(){
+	var canvas = document.getElementById("mycanvas");
+	canvas.width = 500;
+	canvas.height = 350;
+	var ctx = canvas.getContext("2d");
+	var Arra = document.querySelectorAll(".btns a");
+	for(var i=0;i<Arra.length;i++){
+		Arra[i].onclick = function(){
+			draw(ctx,this.innerText);
+		};
+	};
+	draw(ctx,"source-over");
+};
+function draw(ctx,txt){
+	ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
+	ctx.globalCompositeOperation = "source-over";
+	ctx.fillStyle = "#333";
+	ctx.textAlign = "center";
+	ctx.font = "bold 16px Arial";
+	var str = "globalCompositeOperation = "+txt;
+	ctx.fillText(str,ctx.canvas.width/2,20);
+	ctx.fillStyle = "green";
+	ctx.fillRect(150,50,200,200);
+	ctx.globalCompositeOperation = txt;
+	ctx.beginPath();
+	ctx.moveTo(300,100);
+	ctx.lineTo(425,300);
+	ctx.lineTo(175,300);
+	ctx.closePath();
+	ctx.fillStyle = "red";
+	ctx.fill();
+};
+</script>
+</body>
+</html>

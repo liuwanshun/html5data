@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>文字基础</title>
+	<style>
+		body{
+			padding: 0;
+			margin: 0;
+		}
+		#mycanvas{
+			display: block;
+			margin: 0 auto;
+		}
+	</style>
+</head>
+<body>
+<canvas id="mycanvas"></canvas>
+<script>
+window.onload = function(){
+	var mycanvas = document.getElementById("mycanvas");
+	mycanvas.width = 800;
+	mycanvas.height = 800;
+	var ctx = mycanvas.getContext("2d");
+
+	ctx.fillStyle = "#058";
+
+	ctx.shadowColor = "red";
+	ctx.shadowOffsetX = 5;
+	ctx.shadowOffsetY = 5;
+	ctx.shadowBlur = 0;
+
+	ctx.fillRect(200,100,400,400);
+	ctx.font = "bold 40px Arial";
+	ctx.fillText("刘万顺",100,100);
+
+};
+</script>
+</body>
+</html>

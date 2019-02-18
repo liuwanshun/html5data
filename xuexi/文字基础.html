@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>文字基础</title>
+	<style>
+		body{
+			padding: 0;
+			margin: 0;
+		}
+		#mycanvas{
+			display: block;
+			margin: 0 auto;
+		}
+	</style>
+</head>
+<body>
+<canvas id="mycanvas"></canvas>
+<script>
+window.onload = function(){
+	var mycanvas = document.getElementById("mycanvas");
+	mycanvas.width = 800;
+	mycanvas.height = 500;
+	var ctx = mycanvas.getContext("2d");
+
+	var str = "伫看风急天寒夜,谁是当门定脚人";
+	ctx.font = "bold 40px Arial";
+	ctx.fillText(str,100,100);
+	ctx.lineWidth = 1;
+	ctx.strokeText(str,100,150);
+
+	var lineGrad = ctx.createLinearGradient(0,0,800,0);
+	lineGrad.addColorStop(0,"red");
+	lineGrad.addColorStop(.25,"orange");
+	lineGrad.addColorStop(.5,"yellow");
+	lineGrad.addColorStop(.75,"green");
+	lineGrad.addColorStop(1,"purple");
+	ctx.fillStyle = lineGrad;
+	ctx.fillText(str,100,200);
+	console.log(ctx.measureText(str));
+
+	var backgroundImage = new Image();
+	backgroundImage.src = "img_01.jpg";
+	backgroundImage.onload = function(){
+		var pattern = ctx.createPattern(backgroundImage,"repeat");
+		ctx.fillStyle = pattern;
+		ctx.fillText(str,100,300);
+	};
+};
+</script>
+</body>
+</html>

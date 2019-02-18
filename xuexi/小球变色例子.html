@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>小球变色效果</title>
+	<style>
+		body{
+			padding: 0;
+			margin: 0;
+		}
+		#mycanvas{
+			display: block;
+			margin: 0 auto;
+			margin-top: 100px;
+			border:solid 1px #ccc;
+		}
+	</style>
+</head>
+<body>
+<canvas id="mycanvas"></canvas>
+<script>
+var canvas = document.getElementById("mycanvas");
+canvas.width = 500;
+canvas.height = 500;
+var ctx = canvas.getContext("2d");
+var arr = [];
+window.onload = function(){
+	//绘制10个小球
+	ctx.fillStyle = "green";
+	for(var i=0;i<100;i++){
+		var x = Math.random()*canvas.width;
+		var y = Math.random()*canvas.height;
+		var r = Math.random()*10+10;
+		ctx.beginPath();
+		ctx.arc(x,y,r,0,Math.PI*2,false);
+		ctx.fill();
+		arr.push({
+			x:x,
+			y:y,
+			r:r
+		});
+	};
+	canvas.addEventListener("mousemove",detect);
+};
+function detect(event){
+	var x = event.clientX - canvas.getBoundingClientRect().left;
+	var y = event.clientY - canvas.getBoundingClientRect().top;
+	draw(x,y);
+};
+function draw(x,y){
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	for(var i=0,len=arr.length;i<len;i++){
+		ctx.beginPath();
+		ctx.arc(arr[i].x,arr[i].y,arr[i].r,0,Math.PI*2,false);
+		if(ctx.isPointInPath(x,y)){
+			ctx.fillStyle = "red";
+		}else{
+			ctx.fillStyle = "green";
+		};
+		ctx.fill();
+	};
+};
+</script>
+</body>
+</html>
