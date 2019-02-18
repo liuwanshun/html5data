@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>如何劫持moveTo方法</title>
+	<style>
+		body{
+			padding: 0;
+			margin: 0;
+		}
+		#mycanvas{
+			display: block;
+			margin: 0 auto;
+			margin-top: 100px;
+			border:solid 1px #ccc;
+		}
+	</style>
+</head>
+<body>
+<canvas id="mycanvas"></canvas>
+<script>
+var canvas = document.getElementById("mycanvas");
+canvas.width = 800;
+canvas.height = 800;
+var ctx = canvas.getContext("2d");
+var originalMoveTo = CanvasRenderingContext2D.prototype.moveTo;
+CanvasRenderingContext2D.prototype.lastMoveToloc = {};
+CanvasRenderingContext2D.prototype.moveTo = function(x,y){
+	originalMoveTo.apply(ctx,[x,y]);
+	this.lastMoveToloc.x = x;
+	this.lastMoveToloc.y = y;
+};
+CanvasRenderingContext2D.prototype.fillStar = function(r,R,rot=0){
+	this.beginPath();
+	for(var i=0;i<5;i++){
+		var x1 = Math.cos((18+(i*72)+rot)/180*Math.PI)*R+this.lastMoveToloc.x;
+		var y1 = -Math.sin((18+(i*72)+rot)/180*Math.PI)*R+this.lastMoveToloc.y;
+		var x2 = Math.cos((54+(i*72)+rot)/180*Math.PI)*r+this.lastMoveToloc.x;
+		var y2 = -Math.sin((54+(i*72)+rot)/180*Math.PI)*r+this.lastMoveToloc.y;
+		ctx.lineTo(x1,y1);
+		ctx.lineTo(x2,y2);
+	};
+	this.closePath();
+	this.fill();
+};
+window.onload = function(){
+	ctx.fillStyle = "#058";
+	ctx.moveTo(400,300);
+	ctx.fillStar(150,300);
+};
+</script>
+</body>
+</html>
