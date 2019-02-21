@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas放大镜效果</title>
+	<style>
+		#canvas{
+			display: block;
+			margin: 0 auto;
+			margin-top:20px;
+			border:solid 1px #ccc;
+		}
+	</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<canvas style="display: none;" id="offcanvas"></canvas>
+<script>
+var canvas = document.getElementById("canvas");
+var offcanvas = document.getElementById("offcanvas");
+var oimg = new Image();
+oimg.src = "pic_01.png";
+var ctx,offctx;
+var bili = 2.2;
+var is_down = false;
+oimg.onload = function(){
+	offcanvas.width = this.width*.7*bili;
+	offcanvas.height = this.height*.7*bili;
+	offctx = offcanvas.getContext("2d");
+	offctx.drawImage(oimg,0,0,offcanvas.width,offcanvas.height);
+	//展示出的canvas
+	canvas.width = this.width*.7;
+	canvas.height = this.height*.7;
+	ctx = canvas.getContext("2d");
+	ctx.drawImage(oimg,0,0,canvas.width,canvas.height);
+	//事件处理
+	canvas.onmousedown = function(e){
+		is_down = true;
+		draw_magnifier(false);
+	};
+	canvas.onmouseup = function(e){
+		is_down = false;
+		draw_magnifier(false);
+	};
+	canvas.onmouseout = function(e){
+		is_down = false;
+		draw_magnifier(false);
+	};
+	canvas.onmousemove = function(e){
+		if(is_down){
+			//创建放大镜，
+			var rectObject = canvas.getBoundingClientRect();
+			var x = e.clientX - rectObject.left - 1;
+			var y = e.clientY - rectObject.top - 1;
+			draw_magnifier(true,x,y)
+		};
+	};
+};
+function draw_magnifier(br,x,y){
+	if(br){
+		ctx.clearRect(0,0,canvas.width,canvas.height);
+		ctx.drawImage(oimg,0,0,canvas.width,canvas.height);
+		//创建一个圆形
+		ctx.save();
+		ctx.lineWidth = 4;
+		ctx.beginPath();
+		ctx.arc(x,y,100,0,Math.PI*2,false);
+		ctx.strokeStyle = 'green';
+		ctx.fillStyle = 'red';
+		ctx.closePath();
+		ctx.stroke();
+		ctx.fill();
+		ctx.clip();
+		//绘制矩形
+		ctx.drawImage(offcanvas,x*bili-100,y*bili-100,200,200,x-100,y-100,200,200);
+		ctx.restore();
+	}else{
+		ctx.drawImage(oimg,0,0,canvas.width,canvas.height);
+	};
+};
+</script>
+</body>
+</html>

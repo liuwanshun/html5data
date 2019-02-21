@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片滑杆放大</title>
+	<style>
+		#canvas{
+			display: block;
+			margin:0 auto;
+			margin-top: 20px;
+			border:solid 1px #ccc;
+		}
+		#input1{
+			display: block;
+			margin:0 auto;
+			margin-top: 20px;
+			width: 500px;
+		}
+	</style>
+</head>
+<body>
+<div class="btn_box">
+	<input type="file" id="fille" accept="image/*">
+	<button id="btn1">更换</button>
+</div>
+<canvas id="canvas"></canvas>
+<input type="range" min="0.50" step="0.01" max="3.00" value="1.00" id="input1">
+<script>
+var canvas = document.querySelector("#canvas");
+canvas.width = 1000;
+canvas.height = 700;
+var ctx = canvas.getContext("2d");
+var image = new Image();
+//图像的宽高，图像的宽高比例是否比canvas的宽高比例大
+var img_w,img_h,is_w,_l,_t;
+var inputfile = document.querySelector("#fille");
+document.querySelector("#input1").oninput = function(){
+	drawimg(this.value);
+};
+document.querySelector("#btn1").onclick = function(){
+	change_img();
+};
+function change_img(){
+	if(inputfile.value){
+		var file = inputfile.files[0];
+		var reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onload=function(e){
+			//e.target.result;
+			image.src = e.target.result;
+		}
+	}else{
+		image.src = "img_01.jpg";
+	};
+	
+	image.onload = function(){
+		var a = this.height/this.width;
+		var b = canvas.height/canvas.width;
+		if( (this.height <= canvas.height) && (this.width <= canvas.width) ){
+			//可以完全在内部显示
+			img_w = this.width;
+			img_h = this.height;
+			_l = (canvas.width - img_w) / 2;
+			_t = (canvas.height - img_h) / 2;
+		}else{
+			if(a<b){
+				//宽度撑满
+				img_w = canvas.width;
+				img_h = canvas.width*a;
+				_l = 0;
+				_t = (canvas.height - img_h) / 2;
+			}else{
+				//高度撑满
+				img_h = canvas.height;
+				img_w = canvas.height/a;
+				_l = (canvas.width - img_w) / 2;
+				_t = 0;
+			};
+		};
+		drawimg(1);
+	};
+};
+change_img();
+function drawimg(proportion){
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	var w = img_w*proportion;
+	var h = img_h*proportion;
+	var l = (canvas.width - w)/2;
+	var t = (canvas.height - h)/2;
+	ctx.drawImage(image,l,t,w,h);
+};
+</script>
+</body>
+</html>

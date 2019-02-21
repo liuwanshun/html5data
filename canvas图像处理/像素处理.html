@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>像素处理</title>
+	<style>
+		#canvas{
+			margin: 10;
+			border:solid 1px #ccc;
+		}
+		#canvas2{
+			margin: 10;
+			border:solid 1px #ccc;
+		}
+	</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<canvas id="canvas2"></canvas>
+<div></div>
+<button onclick="greyEffect()">灰度滤镜</button>
+<button onclick="blackEffect()">黑白滤镜</button>
+<button onclick="reverEffect()">反色滤镜</button>
+<button onclick="blurEffect()">模糊滤镜</button>
+<script>
+var canvas = document.getElementById("canvas");
+var canvas2 = document.getElementById("canvas2");
+var oimg = new Image();
+oimg.src = "pic_02.png";
+var big = .4;
+oimg.onload = function(){
+	canvas.width = this.width*big;
+	canvas.height = this.height*big;
+	ctx = canvas.getContext("2d");
+	ctx.drawImage(oimg,0,0,canvas.width,canvas.height);
+	canvas2.width = this.width*big;
+	canvas2.height = this.height*big;
+	ctx2 = canvas2.getContext("2d");
+	
+}
+//测试
+function test(){
+	var imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+	var pixeldata = imageData.data;
+	
+	console.time("time1");
+	for(var i=0,len=canvas.width*canvas.height;i<len;i++){
+		pixeldata[4*i+2] = 0;
+	};
+	console.timeEnd("time1");
+	ctx2.putImageData(imageData,0,0,0,0,canvas.width,canvas.height);
+};
+//灰度滤镜
+function greyEffect(){
+	var imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+	var pixeldata = imageData.data;
+	
+	for(var i=0,len=canvas.width*canvas.height;i<len;i++){
+		var r = pixeldata[i*4+0];
+		var g = pixeldata[i*4+1];
+		var b = pixeldata[i*4+2];
+
+		//灰度公式
+		var grey = r*0.3 + g*0.59 + b*0.11;
+
+		pixeldata[i*4+0] = grey;
+		pixeldata[i*4+1] = grey;
+		pixeldata[i*4+2] = grey;
+	};
+	ctx2.putImageData(imageData,0,0,0,0,canvas.width,canvas.height);
+};
+//黑白滤镜
+function blackEffect(){
+	var imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+	var pixeldata = imageData.data;
+	
+	for(var i=0,len=canvas.width*canvas.height;i<len;i++){
+		var r = pixeldata[i*4+0];
+		var g = pixeldata[i*4+1];
+		var b = pixeldata[i*4+2];
+
+		//灰度公式
+		var grey = r*0.3 + g*0.59 + b*0.11;
+		var a = 255/2;
+		var v = 0;
+		if(grey>a){
+			v = 255;
+		};
+
+		pixeldata[i*4+0] = v;
+		pixeldata[i*4+1] = v;
+		pixeldata[i*4+2] = v;
+	};
+	ctx2.putImageData(imageData,0,0,0,0,canvas.width,canvas.height);
+};
+//反色滤镜
+function reverEffect(){
+	var imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+	var pixeldata = imageData.data;
+	
+	for(var i=0,len=canvas.width*canvas.height;i<len;i++){
+		var r = pixeldata[i*4+0];
+		var g = pixeldata[i*4+1];
+		var b = pixeldata[i*4+2];
+
+		pixeldata[i*4+0] = 255 - r;
+		pixeldata[i*4+1] = 255 - g;
+		pixeldata[i*4+2] = 255 - b;
+	};
+	ctx2.putImageData(imageData,0,0,0,0,canvas.width,canvas.height);
+}
+//模糊滤镜 比较复杂
+function blurEffect(){
+	var imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+	var pixeldata = imageData.data;
+
+	ctx2.putImageData(imageData,0,0,0,0,canvas.width,canvas.height);
+};
+</script>
+</body>
+</html>
