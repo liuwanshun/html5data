@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>回弹强度</title>
+	<link rel="stylesheet" type="text/css" href="baohuceng.css">
+	<script type="text/javascript" src="jquery-2.2.3.min.js"></script>
+	<script type="text/javascript" src="store.legacy.min.js"></script>
+</head>
+<body>
+	<div class="bhc_tai_box">
+		<div class="bhc_tai_bak">
+			<div class="bhc_tai_bak_title">
+			回&emsp;&emsp;弹&emsp;&emsp;台&emsp;&emsp;账
+			</div>
+			<div>
+				<button class="btn1">保存到本地</button>&emsp;
+				<button class="btn2">新增</button>&emsp;
+				<button class="btn3">全部生成</button>&emsp;
+				<button class="btn4 ">删除本地存储</button>
+			</div>
+			<div>
+				<table>
+					<tr>
+						<td class="bhc_tai_box_td_width_5">工程部位部位</td>
+						<td class="bhc_tai_box_td_width_5">构件名称</td>
+						<td class="bhc_tai_box_td_width_5" style="color: red;">空</td>
+						<td class="bhc_tai_box_td_width_5" style="color: red;">碳化值</td>
+						<td class="bhc_tai_box_td_width_5" style="color: red;">取值范围</td>
+						<td class="bhc_tai_box_td_width_5" style="color: red;">获取几排</td>
+						<td class="bhc_tai_box_td_width_5" style="color: red;">空</td>
+						<td class="bhc_tai_box_td_width_5">空</td>
+						<td class="bhc_tai_box_td_width_5">年</td>
+						<td class="bhc_tai_box_td_width_5">浇筑月</td>
+						<td class="bhc_tai_box_td_width_5">浇筑日</td>
+						<td class="bhc_tai_box_td_width_5" style="color: red;">检测月</td>
+						<td class="bhc_tai_box_td_width_5" style="color: red;">检测日</td>
+						<td class="bhc_tai_box_td_width_5" style="background: green;">空</td>
+						<td class="bhc_tai_box_td_width_5">生成</td>	
+					</tr>
+				</table>
+			</div>
+			<div>
+				<table class="tbody2">
+					<!-- <tr>
+						<td class="bhc_tai_box_td_width_5"><input type="" name="" value=""  ></td>
+						<td class="bhc_tai_box_td_width_5"><input type="" name="" value=""  ></td>
+						<td class="bhc_tai_box_td_width_5"><input type="" name="" value=""  ></td>
+						<td class="bhc_tai_box_td_width_5"><input type="" name="" value=""  ></td>
+						<td class="bhc_tai_box_td_width_5"><input type="" name="" value=""  ></td>
+						<td class="bhc_tai_box_td_width_5"><input type="" name="" value=""  ></td>
+						<td class="bhc_tai_box_td_width_5"><input type="" name="" value=""  ></td>
+						<td class="bhc_tai_box_td_width_5"><input type="" name="" value=""  ></td>			
+						<td class="bhc_tai_box_td_width_5"><input type="" name="" value=""  ></td>
+						<td class="bhc_tai_box_td_width_5"><input type="" name="" value=""  ></td>
+						<td class="bhc_tai_box_td_width_5"><input type="" name="" value=""  ></td>
+						<td class="bhc_tai_box_td_width_5"><input type="" name="" value=""  ></td>
+						<td class="bhc_tai_box_td_width_5"><input type="" name="" value=""  ></td>
+						<td class="bhc_tai_box_td_width_5 sc">生成</td>
+					</tr> -->
+				</table>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+	var canshu = 1;
+function GetRequest() {   
+   var url = location.search; //获取url中"?"符后的字串   
+   var theRequest = new Object();   
+   if (url.indexOf("?") != -1) {   
+      var str = url.substr(1);   
+      strs = str.split("&");   
+      for(var i = 0; i < strs.length; i ++) {   
+         theRequest[strs[i].split("=")[0]]=decodeURIComponent(strs[i].split("=")[1]);   
+      };
+   };
+   return theRequest;   
+};
+//获取一行表格中的所有数据
+function get_tr_data(tr){
+	var arrinput = tr.find('input');
+	var json = {
+		"1":arrinput.eq(0).val(),
+		"2":arrinput.eq(1).val(),
+		"3":arrinput.eq(2).val(),
+		"4":arrinput.eq(3).val(),
+		"5":arrinput.eq(4).val(),
+		"6":arrinput.eq(5).val(),
+		"7":arrinput.eq(6).val(),
+		"8":arrinput.eq(7).val(),
+		"9":arrinput.eq(8).val(),
+		"10":arrinput.eq(9).val(),
+		"11":arrinput.eq(10).val(),
+		"12":arrinput.eq(11).val(),
+		"13":arrinput.eq(12).val(),
+		"14":arrinput.eq(13).val()
+	};
+	return json;
+};
+var open_win = function(obj,tx){
+		var tr = $(obj).parent();
+		var json = get_tr_data(tr);
+		var str = "?cnashu="+tx;
+		for(var p in json){
+			json[p] = encodeURIComponent(json[p]);
+			str+="&"+p+"="+json[p]+"";
+		};
+		window.open("./数显回弹仪.html"+str);
+		
+};
+//点击单个全部生成
+$(".sc").each(function(index, el) {
+	el.onclick = function(){
+  		if(canshu == 2){return};
+		open_win(this,"all");
+	};
+});
+//把已经编写的内容保存到本地
+$(".btn1").click(function(event) {
+	var arr = [];
+	$(".tbody2 tr").each(function(index, el) {
+		var json = get_tr_data($(this));
+		arr.push(json);
+	});
+	store.set("gangjintaizhang",arr);
+});
+function create_tr(item){
+	var tr = $("<tr></tr>");
+	str = "";
+	str += '<td class="bhc_tai_box_td_width_5" ><input value="'+(item[1] || '')+'"></td>';
+	str += '<td class="bhc_tai_box_td_width_5" ><input value="'+(item[2] || '')+'"></td>';
+	str += '<td class="bhc_tai_box_td_width_5" ><input value="'+(item[3] || '')+'"></td>';
+	str += '<td class="bhc_tai_box_td_width_5" ><input value="'+(item[4] || '')+'"></td>';
+	str += '<td class="bhc_tai_box_td_width_5" ><input value="'+(item[5] || '')+'"></td>';
+	str += '<td class="bhc_tai_box_td_width_5" ><input value="'+(item[6] || '')+'"></td>';
+	str += '<td class="bhc_tai_box_td_width_5" ><input value="'+(item[7] || '')+'"></td>';
+	str += '<td class="bhc_tai_box_td_width_5" ><input value="'+(item[8] || '')+'"></td>';
+	str += '<td class="bhc_tai_box_td_width_5" ><input value="'+(item[9] || '')+'"></td>';
+	str += '<td class="bhc_tai_box_td_width_5" ><input value="'+(item[10] || '')+'"></td>';
+	str += '<td class="bhc_tai_box_td_width_5" ><input value="'+(item[11] || '')+'"></td>';
+	str += '<td class="bhc_tai_box_td_width_5" ><input value="'+(item[12] || '')+'"></td>';
+	str += '<td class="bhc_tai_box_td_width_5" ><input value="'+(item[13] || '')+'"></td>';
+	str += '<td class="bhc_tai_box_td_width_5" ><input value="'+(item[14] || '')+'"></td>';
+	str += '<td class="bhc_tai_box_td_width_5 sc">生成</td>';
+
+	tr.html(str);
+	//点击单个全部生成
+	tr.find(".sc").each(function(index, el) {
+		el.onclick = function(){
+			if(canshu == 2){return};
+			open_win(this);
+		};
+	});
+	return tr;
+};
+var taizhangdata = store.get("gangjintaizhang") || [];
+(function(){
+	var $obj = $(".tbody2");
+	for(var i=0,len=taizhangdata.length;i<len;i++){
+		$obj.append(create_tr(taizhangdata[i]));
+	};
+}());
+//删除本地存储
+$(".btn4").click(function(event) {
+	store.remove('gangjintaizhang');
+});
+//新增
+$(".btn2").click(function(event) {
+	if(canshu == 2){return};
+	$(".tbody2").append(create_tr({}));
+});
+//全部生成
+$(".btn3").click(function(event) {
+	if(canshu == 2){return};
+	$(".tbody2 tr").each(function(index, el) {
+		open_win($(this).find('.sc').get(0));
+	});
+});
+
+function aa(data){
+	canshu = data;
+};
+//简写形式，效果相同
+/*var hh = function(){
+	$.ajax({  
+	    type : "get",  
+	    async:false,  
+	    url : "http://renjiansha.com/taizhang_duqu.php",  
+	    dataType : "jsonp",//数据类型为jsonp
+	    success : function(data){  
+	       	//console.log(data);
+	    }
+	});
+}; 
+hh();
+setInterval(hh,1000*30);*/
+
+
+</script>
+</body>
+</html>
