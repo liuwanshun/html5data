@@ -42,10 +42,11 @@ _b.rect_ra = function(x,y,w,h,radius,fillcolor,text,textcolor){
 	ctx.arc(x+radius,y+h-radius,radius,.5*Math.PI,Math.PI,false);
 	ctx.closePath();
 	ctx.fill();
-	ctx.font = Math.floor(27*rem)+"px";
+	ctx.font = Math.floor(27*rem)+"px 黑体";
 	ctx.strokeStyle = textcolor;
 	ctx.textAlign = "center";
 	ctx.textBaseline = "middle";
+	console.log()
 	ctx.strokeText(text,x+(w/2),y+(h/2));
 };
 
@@ -375,9 +376,9 @@ _b.initialize = function(){
 //向上被按下变换type=true按下false抬起
 _b.btnclick = function(jsn,type){
 	if(type){
-		_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,10*rem,jsn.fillcolor_hover,jsn.msg,"#fff");
+		_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,Math.floor(10*rem),jsn.fillcolor_hover,jsn.msg,"#fff");
 	}else{
-		_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,10*rem,jsn.fillcolor,jsn.msg,"#efb456");
+		_b.rect_ra(jsn.x,jsn.y,jsn.w,jsn.h,Math.floor(10*rem),jsn.fillcolor,jsn.msg,"#efb456");
 	};
 	if(jsn.type === 1){
 		//变换按钮
